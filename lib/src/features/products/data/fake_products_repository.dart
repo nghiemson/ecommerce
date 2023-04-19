@@ -1,11 +1,10 @@
 import 'package:ecommerce_app/src/constants/test_products.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FakeProductsRepository {
-  FakeProductsRepository._();
-
   final List<Product> _product = kTestProducts;
-  static FakeProductsRepository instance = FakeProductsRepository._();
+
   List<Product> getProductsList() {
     return _product;
   }
@@ -26,3 +25,7 @@ class FakeProductsRepository {
         .map((products) => products.firstWhere((element) => element.id == id));
   }
 }
+
+final productsRepoProvider = Provider<FakeProductsRepository>((ref) {
+  return FakeProductsRepository();
+});
