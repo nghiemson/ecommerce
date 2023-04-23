@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:ecommerce_app/src/common_widgets/async_value_widget.dart';
 import 'package:ecommerce_app/src/common_widgets/error_message_widget.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
 import 'package:ecommerce_app/src/constants/test_products.dart';
@@ -12,6 +13,8 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../domain/product.dart';
+
 /// A widget that displays the list of products that match the search query.
 class ProductsGrid extends ConsumerWidget {
   const ProductsGrid({super.key});
@@ -19,12 +22,13 @@ class ProductsGrid extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productsListValue = ref.watch(productsListFutureProvider);
-    return productsListValue.when(
+    return AsyncValueWidget<List<Product>>(
+      value: productsListValue,
       data: (products) => products.isEmpty
           ? Center(
               child: Text(
                 'No products found'.hardcoded,
-                style: Theme.of(context).textTheme.headline4,
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
             )
           : ProductsLayoutGrid(
@@ -40,8 +44,6 @@ class ProductsGrid extends ConsumerWidget {
                 );
               },
             ),
-      error: (e, st) => Center(child: ErrorMessageWidget(e.toString())),
-      loading: () => const Center(child: CircularProgressIndicator()),
     );
   }
 }
