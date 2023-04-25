@@ -7,19 +7,17 @@ class AccountScreenController extends StateNotifier<AsyncValue<void>> {
 
   final FakeAuthRepository authRepository;
 
-  Future<void> signOut() async {
-    try {
+  Future<bool> signOut() async {
+    {
       state = const AsyncValue<void>.loading();
-      await authRepository.signOut();
-      state = const AsyncValue<void>.data(null);
-    } catch (e, st) {
-      state = AsyncValue<void>.error(e, st);
+      state = await AsyncValue.guard(() => authRepository.signOut());
+      return state.hasError == false;
     }
   }
 }
 
-final accountScreenControllerProvider =
-    StateNotifierProvider.autoDispose<AccountScreenController, AsyncValue<void>>((ref) {
-      final authRepository = ref.watch(authRepositoryProvider);
-      return AccountScreenController(authRepository: authRepository);
-    });
+final accountScreenControllerProvider = StateNotifierProvider.autoDispose<
+    AccountScreenController, AsyncValue<void>>((ref) {
+  final authRepository = ref.watch(authRepositoryProvider);
+  return AccountScreenController(authRepository: authRepository);
+});

@@ -15,9 +15,9 @@ class AccountScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    ref.listen<AsyncValue<void>>(
-        accountScreenControllerProvider, (previous, next) {
-      if (!next.isLoading && next.hasError) {
+    ref.listen<AsyncValue<void>>(accountScreenControllerProvider,
+        (previous, next) {
+      if (next.hasError) {
         showExceptionAlertDialog(
           context: context,
           title: 'Error'.hardcoded,
@@ -29,28 +29,30 @@ class AccountScreen extends ConsumerWidget {
     final state = ref.watch(accountScreenControllerProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Account'.hardcoded),
+        title: state.isLoading
+            ? const CircularProgressIndicator()
+            : Text('Account'.hardcoded),
         actions: [
           ActionTextButton(
             text: 'Logout'.hardcoded,
             onPressed: state.isLoading
                 ? null
                 : () async {
-              final logout = await showAlertDialog(
-                context: context,
-                title: 'Are you sure?'.hardcoded,
-                cancelActionText: 'Cancel'.hardcoded,
-                defaultActionText: 'Logout'.hardcoded,
-              );
-              if (logout == true) {
-                await ref
-                    .read(accountScreenControllerProvider.notifier)
-                    .signOut();
-                if (context.mounted) {
-                  Navigator.of(context).pop();
-                }
-              }
-            },
+                    final logout = await showAlertDialog(
+                      context: context,
+                      title: 'Are you sure?'.hardcoded,
+                      cancelActionText: 'Cancel'.hardcoded,
+                      defaultActionText: 'Logout'.hardcoded,
+                    );
+                    if (logout == true) {
+                      final res = await ref
+                          .read(accountScreenControllerProvider.notifier)
+                          .signOut();
+                      if (res && context.mounted) {
+                        Navigator.of(context).pop();
+                      }
+                    }
+                  },
           ),
         ],
       ),
@@ -68,10 +70,7 @@ class UserDataTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = Theme
-        .of(context)
-        .textTheme
-        .titleSmall!;
+    final style = Theme.of(context).textTheme.titleSmall!;
     // TODO: get user from auth repository
     const user = AppUser(uid: '123', email: 'test@test.com');
     return DataTable(
