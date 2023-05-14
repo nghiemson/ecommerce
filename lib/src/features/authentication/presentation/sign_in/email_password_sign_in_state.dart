@@ -18,7 +18,7 @@ mixin EmailAndPasswordValidators {
 class EmailPasswordSignInState with EmailAndPasswordValidators {
   EmailPasswordSignInState({
     this.formType = EmailPasswordSignInFormType.signIn,
-    this.value = const AsyncValue.data(null),
+    this.value = const AsyncData<void>(null),
   });
 
   final EmailPasswordSignInFormType formType;
