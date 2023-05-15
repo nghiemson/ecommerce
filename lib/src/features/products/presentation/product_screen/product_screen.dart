@@ -4,7 +4,6 @@ import 'package:ecommerce_app/src/common_widgets/empty_placeholder_widget.dart';
 import 'package:ecommerce_app/src/common_widgets/responsive_center.dart';
 import 'package:ecommerce_app/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
-import 'package:ecommerce_app/src/constants/test_products.dart';
 import 'package:ecommerce_app/src/features/products/data/fake_products_repository.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:ecommerce_app/src/features/products/presentation/product_screen/leave_review_action.dart';
@@ -14,7 +13,6 @@ import 'package:ecommerce_app/src/utils/currency_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../common_widgets/error_message_widget.dart';
 import '../../../cart/presentation/add_to_cart/add_to_cart_widget.dart';
 import '../../../review/presentation/product_reviews/product_reviews_list.dart';
 import '../home_app_bar/home_app_bar.dart';

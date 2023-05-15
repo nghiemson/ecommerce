@@ -1,5 +1,5 @@
 name: ecommerce_app
-description: Flutter eCommerce app (part of the Complete Flutter Course Bundle)
+description: Flutter eCommerce app
 
 # Prevent accidental publishing to pub.dev.
 publish_to: 'none'
@@ -44,6 +44,11 @@ flutter:
 
   # Enable generation of localized Strings from arb files.
   generate: true
+
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
 
   assets:
     # Add all product images
