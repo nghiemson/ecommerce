@@ -4,6 +4,7 @@ import 'package:ecommerce_app/src/features/authentication/data/fake_auth_reposit
 import 'package:ecommerce_app/src/features/authentication/presentation/account/account_screen.dart';
 import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_screen.dart';
 import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
+import 'package:ecommerce_app/src/features/products/presentation/home_app_bar/more_menu_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,6 +15,13 @@ class AuthRobot {
   AuthRobot(this.tester);
 
   final WidgetTester tester;
+
+  Future<void> openEmailPasswordSignInScreen() async {
+    final finder = find.byKey(MoreMenuButton.signInKey);
+    expect(finder, findsOneWidget);
+    await tester.tap(finder);
+    await tester.pumpAndSettle();
+  }
 
   Future<void> pumpEmailPasswordSignInContents({
     required FakeAuthRepository authRepository,
@@ -41,7 +49,32 @@ class AuthRobot {
     final primaryButton = find.byType(PrimaryButton);
     expect(primaryButton, findsOneWidget);
     await tester.tap(primaryButton);
-    await tester.pump();
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> enterEmail(String email) async {
+    final emailField = find.byKey(EmailPasswordSignInScreen.emailKey);
+    expect(emailField, findsOneWidget);
+    await tester.enterText(emailField, email);
+  }
+
+  Future<void> enterPassword(String password) async {
+    final passwordField = find.byKey(EmailPasswordSignInScreen.passwordKey);
+    expect(passwordField, findsOneWidget);
+    await tester.enterText(passwordField, password);
+  }
+
+  Future<void> signInWithEmailAndPassword() async {
+    await enterEmail('test@mail.com');
+    await enterPassword('test123');
+    await tapEmailAndPasswordSubmitButton();
+  }
+
+  Future<void> openAccountScreen() async {
+    final finder = find.byKey(MoreMenuButton.accountKey);
+    expect(finder, findsOneWidget);
+    await tester.tap(finder);
+    await tester.pumpAndSettle();
   }
 
   Future<void> pumpAccountScreen({FakeAuthRepository? authRepository}) async {

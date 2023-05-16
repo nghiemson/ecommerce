@@ -20,13 +20,42 @@ void main() {
         'When tap on Sign In button'
         'Then signInWithEmailAndPassword is not called', (tester) async {
       final r = AuthRobot(tester);
-      r.pumpEmailPasswordSignInContents(
+      await r.pumpEmailPasswordSignInContents(
         authRepository: authRepository,
         formType: EmailPasswordSignInFormType.signIn,
       );
       await r.tapEmailAndPasswordSubmitButton();
       verifyNever(
           () => authRepository.signInWithEmailAndPassword(any(), any()));
+    });
+
+    testWidgets(
+        'Given formType is signIn'
+        'When enter valid email and password'
+        'And tap on the sign in button'
+        'Then signInWithEmailAndPassword is called'
+        'And onSignIn callback is called'
+        'And error alert is not shown', (tester) async {
+          var didSignIn = false;
+      final r = AuthRobot(tester);
+      when(
+        () => authRepository.signInWithEmailAndPassword(
+          testEmail,
+          testPassword,
+        ),
+      ).thenAnswer((_) => Future.value());
+      await r.pumpEmailPasswordSignInContents(
+        authRepository: authRepository,
+        formType: EmailPasswordSignInFormType.signIn,
+        onSignedIn: () => didSignIn = true,
+      );
+      await r.enterEmail(testEmail);
+      await r.enterPassword(testPassword);
+      await r.tapEmailAndPasswordSubmitButton();
+      verify(
+          () => authRepository.signInWithEmailAndPassword(testEmail, testPassword)).called(1);
+      r.expectErrorAlertNotFound();
+      expect(didSignIn, true);
     });
   });
 }
