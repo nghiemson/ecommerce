@@ -9,32 +9,26 @@ import '../domain/cart.dart';
 import '../domain/item.dart';
 
 class CartService {
-  CartService({
-    required this.authRepository,
-    required this.localCartRepository,
-    required this.remoteCartRepository,
-  });
+  CartService(this.ref);
 
-  final FakeAuthRepository authRepository;
-  final LocalCartRepository localCartRepository;
-  final RemoteCartRepository remoteCartRepository;
+  final Ref ref;
 
   Future<Cart> _fetchCart() {
-    final user = authRepository.currentUser;
+    final user = ref.read(authRepositoryProvider).currentUser;
     if (user != null) {
-      return remoteCartRepository.fetchCart(user.uid);
+      return ref.read(remoteCartRepositoryProvider).fetchCart(user.uid);
     } else {
-      return localCartRepository.fetchCart();
+      return ref.read(localCartRepositoryProvider).fetchCart();
     }
   }
 
   // save the cart to local or remote repo
   Future<void> _setCart(Cart cart) async {
-    final user = authRepository.currentUser;
+    final user = ref.read(authRepositoryProvider).currentUser;
     if (user != null) {
-      await remoteCartRepository.setCart(user.uid, cart);
+      await ref.read(remoteCartRepositoryProvider).setCart(user.uid, cart);
     } else {
-      await localCartRepository.setCart(cart);
+      await ref.read(localCartRepositoryProvider).setCart(cart);
     }
   }
 
@@ -42,7 +36,7 @@ class CartService {
   Future<void> setItem(Item item) async {
     final cart = await _fetchCart();
     final updated = cart.setItem(item);
-    await _setCart(cart);
+    await _setCart(updated);
   }
 
   // add item in local or remote cart
@@ -60,9 +54,5 @@ class CartService {
 }
 
 final cartServiceProvider = Provider<CartService>((ref) {
-  return CartService(
-    authRepository: ref.watch(authRepositoryProvider),
-    localCartRepository: ref.watch(localCartRepositoryProvider),
-    remoteCartRepository: ref.watch(remoteCartRepositoryProvider),
-  );
+  return CartService(ref);
 });

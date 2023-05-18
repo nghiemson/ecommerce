@@ -23,7 +23,7 @@ class Cart {
 
   factory Cart.fromMap(Map<String, dynamic> map) {
     return Cart(
-       Map<ProductID, int>.from(map['items']),
+      Map<ProductID, int>.from(map['items']),
     );
   }
 

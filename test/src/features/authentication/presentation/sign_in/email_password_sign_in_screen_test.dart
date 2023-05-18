@@ -2,7 +2,7 @@ import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/e
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../../mocks.dart';
+import '../../../cart/mocks.dart';
 import '../../auth_robot.dart';
 
 void main() {
@@ -36,7 +36,7 @@ void main() {
         'Then signInWithEmailAndPassword is called'
         'And onSignIn callback is called'
         'And error alert is not shown', (tester) async {
-          var didSignIn = false;
+      var didSignIn = false;
       final r = AuthRobot(tester);
       when(
         () => authRepository.signInWithEmailAndPassword(
@@ -52,8 +52,8 @@ void main() {
       await r.enterEmail(testEmail);
       await r.enterPassword(testPassword);
       await r.tapEmailAndPasswordSubmitButton();
-      verify(
-          () => authRepository.signInWithEmailAndPassword(testEmail, testPassword)).called(1);
+      verify(() => authRepository.signInWithEmailAndPassword(
+          testEmail, testPassword)).called(1);
       r.expectErrorAlertNotFound();
       expect(didSignIn, true);
     });

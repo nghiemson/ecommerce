@@ -1,7 +1,7 @@
 import 'package:ecommerce_app/src/features/authentication/domain/app_user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import '../../../../mocks.dart';
+import '../../../cart/mocks.dart';
 import '../../auth_robot.dart';
 
 void main() {
