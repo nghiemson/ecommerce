@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:ecommerce_app/src/features/cart/domain/item.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
+import 'package:flutter/foundation.dart';
 
 /// Model class representing the shopping cart contents.
 class Cart {
@@ -30,6 +31,13 @@ class Cart {
   String toJson() => jsonEncode(toMap());
 
   factory Cart.fromJson(String source) => Cart.fromMap(jsonDecode(source));
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is Cart && mapEquals(items, other.items);
+
+  @override
+  int get hashCode => items.hashCode;
 }
 
 extension CartItems on Cart {
