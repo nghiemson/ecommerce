@@ -40,24 +40,24 @@ class FakeProductsRepository {
   FakeProductsRepository({this.addDelay = true});
 }
 
-final productsRepoProvider = Provider<FakeProductsRepository>((_) {
+final productsRepositoryProvider = Provider<FakeProductsRepository>((_) {
   return FakeProductsRepository();
 });
 
 final productsListStreamProvider =
     StreamProvider.autoDispose<List<Product>>((ref) {
-  final productsRepo = ref.watch(productsRepoProvider);
+  final productsRepo = ref.watch(productsRepositoryProvider);
   return productsRepo.watchProductsList();
 });
 
 final productsListFutureProvider =
     FutureProvider.autoDispose<List<Product>>((ref) {
-  final productsRepo = ref.watch(productsRepoProvider);
+  final productsRepo = ref.watch(productsRepositoryProvider);
   return productsRepo.fetchProductList();
 });
 
 final productProvider =
     StreamProvider.autoDispose.family<Product?, String>((ref, id) {
-  final productsRepo = ref.watch(productsRepoProvider);
+  final productsRepo = ref.watch(productsRepositoryProvider);
   return productsRepo.watchProduct(id);
 });

@@ -71,8 +71,8 @@ final cartProvider = StreamProvider<Cart>((ref) {
 });
 
 final cartItemsCountProvider = Provider<int>((ref) {
-  return ref.watch(cartProvider).maybeMap(
-        data: (cart) => cart.value.items.length,
+  return ref.watch(cartProvider).maybeWhen(
+        data: (cart) => cart.items.length,
         orElse: () => 0,
       );
 });

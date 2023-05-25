@@ -41,12 +41,10 @@ class Cart {
 }
 
 extension CartItems on Cart {
-  List<Item> toItemsList() {
-    return items.entries.map((entry) {
-      return Item(
-        productId: entry.key,
-        quantity: entry.value,
-      );
-    }).toList();
-  }
+  List<Item> toItemsList() => items.entries
+      .map((entry) => Item(
+            productId: entry.key,
+            quantity: entry.value,
+          ))
+      .toList();
 }

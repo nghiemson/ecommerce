@@ -19,7 +19,7 @@ class Robot {
     final productsRepository = FakeProductsRepository(addDelay: false);
     final authRepository = FakeAuthRepository(addDelay: false);
     await tester.pumpWidget(ProviderScope(overrides: [
-      productsRepoProvider.overrideWithValue(productsRepository),
+      productsRepositoryProvider.overrideWithValue(productsRepository),
       authRepositoryProvider.overrideWithValue(authRepository),
     ], child: const MyApp()));
     await tester.pumpAndSettle();
