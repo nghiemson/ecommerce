@@ -2,7 +2,6 @@ import 'package:ecommerce_app/src/features/cart/data/local/local_cart_repository
 import 'package:ecommerce_app/src/features/cart/domain/cart.dart';
 import 'package:ecommerce_app/src/utils/delay.dart';
 import 'package:ecommerce_app/src/utils/in_memory_store.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FakeLocalCartRepository implements LocalCartRepository {
 
