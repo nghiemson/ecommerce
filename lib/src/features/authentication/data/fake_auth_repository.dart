@@ -1,4 +1,6 @@
 import 'package:ecommerce_app/src/features/authentication/domain/app_user.dart';
+import 'package:ecommerce_app/src/features/authentication/domain/fake_app_user.dart';
+import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:ecommerce_app/src/utils/delay.dart';
 import 'package:ecommerce_app/src/utils/in_memory_store.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,15 +15,35 @@ class FakeAuthRepository {
 
   AppUser? get currentUser => _authState.value;
 
+  // list to keep track of all users
+  final List<FakeAppUser> _users = [];
+
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     await delay(addDelay);
-    _createNewUser(email);
+    //check the given credentials against each registered user
+    for(final u in _users) {
+      // matching
+      if (u.email == email && u.password == password) {
+        _authState.value = u;
+        return;
+      }
+      //same email, wrong password
+      if (u.email == email && u.password != password) {
+        throw Exception('Wrong password'.hardcoded);
+      }
+    }
+    throw Exception('User not found'.hardcoded);
   }
 
   Future<void> createUserWithEmailAndPassword(
       String email, String password) async {
     await delay(addDelay);
-    _createNewUser(email);
+    // check if email is already in use
+    for (final u in _users) {
+      if (u.email == email) {
+        throw Exception('Email already in use'.hardcoded);
+      }
+    }
   }
 
   Future<void> signOut() async {
