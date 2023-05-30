@@ -52,7 +52,7 @@ class _LeaveReviewFormState extends State<LeaveReviewForm> {
     final review = widget.review;
     if (review != null) {
       _controller.text = review.comment;
-      _rating = review.score;
+      _rating = review.rating;
     }
   }
 

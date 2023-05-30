@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:ecommerce_app/src/app.dart';
+import 'package:ecommerce_app/src/exceptions/async_error_logger.dart';
+import 'package:ecommerce_app/src/exceptions/error_logger.dart';
 import 'package:ecommerce_app/src/features/cart/application/cart_sync_service.dart';
 import 'package:ecommerce_app/src/features/cart/data/local/local_cart_repository.dart';
 import 'package:ecommerce_app/src/features/cart/data/local/sembast_cart_repository.dart';
@@ -10,18 +12,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // * Register error handlers. For more info, see:
-  // * https://docs.flutter.dev/testing/errors
-  registerErrorHandlers();
   final localCartRepository = await SembastCartRepository.makeDefault();
   // Create ProviderContainer with required overrides
   final container = ProviderContainer(
     overrides: [
       localCartRepositoryProvider.overrideWithValue(localCartRepository),
     ],
+    observers: [AsyncErrorLogger()],
   );
   // Initialize cartSyncService to start listener
   container.read(cartSyncServiceProvider);
+
+
+  final errorLogger = container.read(errorLoggerProvider);
+  // * Register error handlers. For more info, see:
+  // * https://docs.flutter.dev/testing/errors
+  registerErrorHandlers(errorLogger);
   // * Entry point of the app
   runApp(
     UncontrolledProviderScope(
@@ -31,15 +37,15 @@ void main() async {
   );
 }
 
-void registerErrorHandlers() {
+void registerErrorHandlers(ErrorLogger errorLogger) {
   // * Show some error UI if any uncaught exception happens
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.presentError(details);
-    debugPrint(details.toString());
+    errorLogger.logError(details.exception, details.stack);
   };
   // * Handle errors from the underlying platform/OS
   PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
-    debugPrint(error.toString());
+    errorLogger.logError(error, stack);
     return true;
   };
   // * Show some error UI when any widget in the app fails to build
