@@ -12,6 +12,7 @@ import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:ecommerce_app/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LeaveReviewScreen extends StatelessWidget {
   const LeaveReviewScreen({super.key, required this.productId});
@@ -20,8 +21,6 @@ class LeaveReviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Read from data source
-    const review = null;
     return Scaffold(
       appBar: AppBar(
         title: Text('Leave a review'.hardcoded),
@@ -133,9 +132,11 @@ class _LeaveReviewFormState extends ConsumerState<LeaveReviewForm> {
               ? null
               : () =>
                   ref.read(leaveReviewControllerProvider.notifier).submitReview(
+                        previousReview: widget.review,
                         productId: widget.productId,
                         rating: _rating,
                         comment: _controller.text,
+                        onSuccess: context.pop,
                       ),
         )
       ],

@@ -3,6 +3,7 @@ import 'package:ecommerce_app/src/features/authentication/domain/app_user.dart';
 import 'package:ecommerce_app/src/features/authentication/domain/fake_app_user.dart';
 import 'package:ecommerce_app/src/utils/delay.dart';
 import 'package:ecommerce_app/src/utils/in_memory_store.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FakeAuthRepository {
@@ -46,6 +47,7 @@ class FakeAuthRepository {
     }
     // min length password require
     if (password.length < 8) {
+      debugPrint('abc ${password.length}');
       throw WeakPasswordException();
     }
     // create new user

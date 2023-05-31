@@ -137,9 +137,9 @@ class _EmailPasswordSignInContentsState
               gapH8,
               // Email field
               TextFormField(
-                initialValue: 'test@test.com',
+                //initialValue: 'test@test.com',
                 key: EmailPasswordSignInScreen.emailKey,
-                //controller: _emailController,
+                controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'Email'.hardcoded,
                   hintText: 'test@test.com'.hardcoded,
@@ -161,9 +161,9 @@ class _EmailPasswordSignInContentsState
               gapH8,
               // Password field
               TextFormField(
-                initialValue: '123456',
+                //initialValue: '12345678',
                 key: EmailPasswordSignInScreen.passwordKey,
-                //controller: _passwordController,
+                controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: state.passwordLabelText,
                   enabled: !state.isLoading,
