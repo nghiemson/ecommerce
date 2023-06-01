@@ -2,7 +2,7 @@ import 'package:ecommerce_app/src/features/authentication/presentation/sign_in/e
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../cart/mocks.dart';
+import '../../../../mocks.dart';
 import '../../auth_robot.dart';
 
 void main() {

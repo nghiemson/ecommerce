@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../cart/mocks.dart';
+import '../../../../mocks.dart';
 
 void main() {
   const testEmail = 'test@mail.com';

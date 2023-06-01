@@ -30,23 +30,27 @@ class ReviewsService {
     // * Note: this should be done on the backend
     // * At this stage the review is already submitted
     // * and we don't need to await for the product rating to also be updated
-    //_updateProductRating(productId);
+    _updateProductRating(productId);
   }
 
-  // Future<void> _updateProductRating(ProductID productId) async {
-  //   final reviews =
-  //       await ref.read(reviewsRepositoryProvider).fetchReviews(productId);
-  //   final avgRating = _avgReviewScore(reviews);
-  //   final product = ref.read(productsRepositoryProvider).getProduct(productId);
-  //   if (product == null) {
-  //     throw StateError('Product not found with id: $productId.'.hardcoded);
-  //   }
-  //   final updated = product.copyWith(
-  //     avgRating: avgRating,
-  //     numRatings: reviews.length,
-  //   );
-  //   await ref.read(productsRepositoryProvider).setProduct(updated);
-  // }
+  Future<void> _updateProductRating(ProductID productId) async {
+    final reviews =
+        await ref.read(reviewsRepositoryProvider).fetchReviews(productId);
+    final avgRating = _avgReviewScore(reviews);
+    // final product = ref.read(productsRepositoryProvider).getProduct(productId);
+    // if (product == null) {
+    //   throw StateError('Product not found with id: $productId.'.hardcoded);
+    // }
+    // final updated = product.copyWith(
+    //   avgRating: avgRating,
+    //   numRatings: reviews.length,
+    // );
+    await ref.read(productsRepositoryProvider).updateProductRating(
+      productId: productId,
+      avgRating: avgRating,
+      numRatings: reviews.length,
+    );
+  }
 
   double _avgReviewScore(List<Review> reviews) {
     if (reviews.isNotEmpty) {
