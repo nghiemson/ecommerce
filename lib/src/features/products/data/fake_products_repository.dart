@@ -5,7 +5,9 @@ import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:ecommerce_app/src/utils/delay.dart';
 import 'package:ecommerce_app/src/utils/in_memory_store.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'fake_products_repository.g.dart';
 
 class FakeProductsRepository {
   FakeProductsRepository({this.addDelay = true});
@@ -73,30 +75,32 @@ class FakeProductsRepository {
   }
 }
 
-final productsRepositoryProvider = Provider<FakeProductsRepository>((_) {
+@riverpod
+FakeProductsRepository productsRepository(ProductsRepositoryRef ref) {
+  // set addDelay to false for faster loading
   return FakeProductsRepository(addDelay: false);
-});
+}
 
-final productsListStreamProvider =
-    StreamProvider.autoDispose<List<Product>>((ref) {
+@riverpod
+Stream<List<Product>> productsListStream(ProductsListStreamRef ref) {
   final productsRepo = ref.watch(productsRepositoryProvider);
   return productsRepo.watchProductsList();
-});
+}
 
-final productsListFutureProvider =
-    FutureProvider.autoDispose<List<Product>>((ref) {
+@riverpod
+Future<List<Product>> productsListFuture(ProductsListFutureRef ref) {
   final productsRepo = ref.watch(productsRepositoryProvider);
   return productsRepo.fetchProductList();
-});
+}
 
-final productProvider =
-    StreamProvider.autoDispose.family<Product?, String>((ref, id) {
+@riverpod
+Stream<Product?> product(ProductRef ref, ProductID id) {
   final productsRepo = ref.watch(productsRepositoryProvider);
   return productsRepo.watchProduct(id);
-});
+}
 
-final productsListSearchProvider = FutureProvider.autoDispose
-    .family<List<Product>, String>((ref, query) async {
+@riverpod
+Future<List<Product>> productsListSearch(ProductsListSearchRef ref, String query) async {
       final link = ref.keepAlive();
       Timer(const Duration(seconds: 5), () {
         link.close();
@@ -106,4 +110,5 @@ final productsListSearchProvider = FutureProvider.autoDispose
       await Future.delayed(const Duration(milliseconds: 500));
   final productsRepository = ref.watch(productsRepositoryProvider);
   return productsRepository.searchProducts(query);
-});
+}
+
