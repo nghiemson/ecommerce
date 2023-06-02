@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 
 import '../features/authentication/presentation/account/account_screen.dart';
 import '../features/authentication/presentation/sign_in/email_password_sign_in_screen.dart';
-import '../features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
+import '../features/authentication/presentation/sign_in/email_password_sign_in_form_type.dart';
 import '../features/cart/presentation/shopping_cart/shopping_cart_screen.dart';
 import '../features/orders/presentation/orders_list/orders_list_screen.dart';
 import '../features/products/presentation/product_screen/product_screen.dart';
