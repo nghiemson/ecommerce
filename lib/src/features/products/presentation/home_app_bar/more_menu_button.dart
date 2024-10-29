@@ -31,19 +31,19 @@ class MoreMenuButton extends StatelessWidget {
                 PopupMenuItem(
                   key: ordersKey,
                   value: PopupMenuOption.orders,
-                  child: Text('Đơn hàng'.hardcoded),
+                  child: Text('Orders'.hardcoded),
                 ),
                 PopupMenuItem(
                   key: accountKey,
                   value: PopupMenuOption.account,
-                  child: Text('Tài khoản'.hardcoded),
+                  child: Text('Account'.hardcoded),
                 ),
               ]
             : <PopupMenuEntry<PopupMenuOption>>[
                 PopupMenuItem(
                   key: signInKey,
                   value: PopupMenuOption.signIn,
-                  child: Text('Đăng nhập'.hardcoded),
+                  child: Text('Sign In'.hardcoded),
                 ),
               ];
       },

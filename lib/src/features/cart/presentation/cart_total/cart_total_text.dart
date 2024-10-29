@@ -12,7 +12,7 @@ class CartTotalText extends ConsumerWidget {
     final cartTotal = ref.watch(cartTotalProvider);
     final totalFormatted = ref.watch(currencyFormatterProvider).format(cartTotal);
     return Text(
-      'Tổng thanh toán: $totalFormatted',
+      'Total: $totalFormatted',
       style: Theme.of(context).textTheme.headlineSmall,
       textAlign: TextAlign.center,
     );

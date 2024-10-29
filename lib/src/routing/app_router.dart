@@ -33,11 +33,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     redirect: (_, state) {
       final isLoggedIn = authRepo.currentUser != null;
       if (isLoggedIn) {
-        if (state.matchedLocation == '/signIn') {
+        if (state.uri.path == '/signIn') {
           return '/';
         }
       } else {
-        if (state.matchedLocation == '/account' || state.matchedLocation == '/orders') {
+        if (state.uri.path == '/account' || state.uri.path == '/orders') {
           return '/';
         }
       }
