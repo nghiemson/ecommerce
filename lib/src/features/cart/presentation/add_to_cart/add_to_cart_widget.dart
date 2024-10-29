@@ -34,7 +34,7 @@ class AddToCartWidget extends ConsumerWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Quantity:'.hardcoded),
+            Text('Số lượng:'.hardcoded),
             ItemQuantitySelector(
               quantity: state.value!,
               // let the user choose up to the available quantity or
@@ -60,13 +60,13 @@ class AddToCartWidget extends ConsumerWidget {
                   .addItem(product.id)
               : null,
           text: availableQuantity > 0
-              ? 'Add to Cart'.hardcoded
-              : 'Out of Stock'.hardcoded,
+              ? 'Thêm vào giỏ'.hardcoded
+              : 'Hết hàng'.hardcoded,
         ),
         if (product.availableQuantity > 0 && availableQuantity == 0) ...[
           gapH8,
           Text(
-            'Already added to cart'.hardcoded,
+            'Đã thêm vào giỏ'.hardcoded,
             style: Theme.of(context).textTheme.bodySmall,
             textAlign: TextAlign.center,
           ),

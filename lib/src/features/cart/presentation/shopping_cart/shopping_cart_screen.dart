@@ -26,7 +26,7 @@ class ShoppingCartScreen extends ConsumerWidget {
     final state = ref.watch(shoppingCartScreenControllerProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Shopping Cart'.hardcoded),
+        title: Text('Giỏ hàng'.hardcoded),
       ),
       body: Consumer(
         builder: (context, ref, child) {
@@ -41,7 +41,7 @@ class ShoppingCartScreen extends ConsumerWidget {
               ),
               ctaBuilder: (_) => PrimaryButton(
                 isLoading: state.isLoading,
-                text: 'Checkout'.hardcoded,
+                text: 'Đặt hàng'.hardcoded,
                 onPressed: () => context.pushNamed(AppRoute.checkout.name),
               ),
             ),

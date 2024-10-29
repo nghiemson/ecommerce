@@ -61,8 +61,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   Widget build(BuildContext context) {
     // map subRoute to address
     final title = _subRoute == CheckoutSubRoute.register
-        ? 'Register'.hardcoded
-        : 'Payment'.hardcoded;
+        ? 'Đăng ký'.hardcoded
+        : 'Thanh toán'.hardcoded;
     // * Return a Scaffold with a PageView containing the 2 pages.
     // * This allows for a nice scroll animation when switching between pages.
     // * Note: only the currently active page will be visible.

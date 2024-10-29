@@ -23,18 +23,18 @@ class AccountScreen extends ConsumerWidget {
       appBar: AppBar(
         title: state.isLoading
             ? const CircularProgressIndicator()
-            : Text('Account'.hardcoded),
+            : Text('Tài khoản'.hardcoded),
         actions: [
           ActionTextButton(
-            text: 'Logout'.hardcoded,
+            text: 'Đăng xuất'.hardcoded,
             onPressed: state.isLoading
                 ? null
                 : () async {
                     final logout = await showAlertDialog(
                       context: context,
-                      title: 'Are you sure?'.hardcoded,
-                      cancelActionText: 'Cancel'.hardcoded,
-                      defaultActionText: 'Logout'.hardcoded,
+                      title: 'Chắc chắn chưa?'.hardcoded,
+                      cancelActionText: 'Thoát'.hardcoded,
+                      defaultActionText: 'Đăng xuất'.hardcoded,
                     );
                     if (logout == true) {
                       await ref

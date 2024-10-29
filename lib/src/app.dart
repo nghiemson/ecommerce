@@ -13,7 +13,7 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       restorationScopeId: 'app',
       routerConfig: goRouter,
-      onGenerateTitle: (BuildContext context) => 'My Shop'.hardcoded,
+      onGenerateTitle: (BuildContext context) => 'TPP1'.hardcoded,
       theme: ThemeData(
         primarySwatch: Colors.grey,
         appBarTheme: const AppBarTheme(

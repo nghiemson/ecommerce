@@ -33,7 +33,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth < Breakpoint.tablet) {
       return AppBar(
-        title: Text('My Shop'.hardcoded),
+        title: Text('TPP1'.hardcoded),
         actions: [
           const ShoppingCartIcon(),
           MoreMenuButton(user: user),
@@ -41,7 +41,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
       );
     } else {
       return AppBar(
-        title: Text('My Shop'.hardcoded),
+        title: Text('TPP1'.hardcoded),
         actions: [
           const ShoppingCartIcon(),
           if (user != null) ...[

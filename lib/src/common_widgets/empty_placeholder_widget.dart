@@ -30,7 +30,7 @@ class EmptyPlaceholderWidget extends StatelessWidget {
                   // * Pop all routes in the navigation stack until the home
                   // * screen is reached.
                   context.goNamed(AppRoute.home.name),
-              text: 'Go Home'.hardcoded,
+              text: 'Về trang chủ'.hardcoded,
             )
           ],
         ),
