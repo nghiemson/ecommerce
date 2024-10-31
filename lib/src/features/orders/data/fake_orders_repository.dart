@@ -16,7 +16,6 @@ class FakeOrdersRepository {
   /// A stream that returns all the orders for a given user, ordered by date
   /// Only user orders that match the given productId will be returned.
   /// If a productId is not passed, all user orders will be returned.
-  @override
   Stream<List<Order>> watchUserOrders(String uid, {ProductID? productId}) {
     return _orders.stream.map((ordersData) {
       final ordersList = ordersData[uid] ?? [];

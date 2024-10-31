@@ -2,9 +2,6 @@ import 'package:ecommerce_app/src/features/authentication/data/fake_auth_reposit
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../authentication/presentation/sign_in/email_password_sign_in_screen.dart';
-import '../../../authentication/presentation/sign_in/email_password_sign_in_form_type.dart';
 import '../payment/payment_page.dart';
 
 /// The two sub-routes that are presented as part of the checkout flow.
@@ -59,27 +56,10 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // map subRoute to address
-    final title = _subRoute == CheckoutSubRoute.register
-        ? 'Register'.hardcoded
-        : 'Checkout'.hardcoded;
-    // * Return a Scaffold with a PageView containing the 2 pages.
-    // * This allows for a nice scroll animation when switching between pages.
-    // * Note: only the currently active page will be visible.
+    final title = 'Checkout'.hardcoded;
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: PageView(
-        // * disable swiping between pages
-        physics: const NeverScrollableScrollPhysics(),
-        controller: _controller,
-        children: [
-          EmailPasswordSignInContents(
-            formType: EmailPasswordSignInFormType.register,
-            onSignedIn: _onSignedIn,
-          ),
-          const PaymentPage()
-        ],
-      ),
+      body: const PaymentPage(),
     );
   }
 }

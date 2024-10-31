@@ -21,7 +21,6 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-
     final user = ref.watch(authStateChangesProvider).asData?.value;
     // * This widget is responsive.
     // * On large screen sizes, it shows all the actions in the app bar.
@@ -34,9 +33,8 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
     if (screenWidth < Breakpoint.tablet) {
       return AppBar(
         title: Text('TPP1'.hardcoded),
-        actions: [
-          const ShoppingCartIcon(),
-          MoreMenuButton(user: user),
+        actions: const [
+          ShoppingCartIcon(),
         ],
       );
     } else {
@@ -45,11 +43,11 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
         actions: [
           const ShoppingCartIcon(),
           if (user != null) ...[
-            ActionTextButton(
-              key: MoreMenuButton.ordersKey,
-              text: 'Orders'.hardcoded,
-              onPressed: () => context.pushNamed(AppRoute.orders.name),
-            ),
+          ActionTextButton(
+            key: MoreMenuButton.ordersKey,
+            text: 'Orders'.hardcoded,
+            onPressed: () => context.pushNamed(AppRoute.orders.name),
+          ),
             ActionTextButton(
               key: MoreMenuButton.accountKey,
               text: 'Account'.hardcoded,

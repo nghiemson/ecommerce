@@ -17,13 +17,14 @@ class MyApp extends ConsumerWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
         appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.black87,
-          foregroundColor: Colors.white,
+          backgroundColor: Color(0xFFE5F2FB),
+          foregroundColor: Colors.black,
           elevation: 0,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.black, // background (button) color
+            backgroundColor: const Color(0xFF003399),
+            minimumSize: const Size.fromHeight(48), // fromHeight use double.infinity as width and 40 is the height
             foregroundColor: Colors.white, // foreground (text) color
           ),
         ),

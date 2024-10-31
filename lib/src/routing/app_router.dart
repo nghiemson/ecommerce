@@ -1,5 +1,7 @@
 import 'package:ecommerce_app/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:ecommerce_app/src/features/checkout/presentation/checkout_screen/checkout_screen.dart';
+import 'package:ecommerce_app/src/features/checkout/presentation/checkout_screen/result_screen.dart';
+import 'package:ecommerce_app/src/features/checkout/presentation/checkout_screen/verify_bank_account_screen.dart';
 import 'package:ecommerce_app/src/routing/go_router_refresh_stream.dart';
 import 'package:ecommerce_app/src/routing/not_found_screen.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,8 @@ enum AppRoute {
   product,
   review,
   checkout,
+  verify,
+  result,
 }
 
 final goRouterProvider = Provider<GoRouter>((ref) {
@@ -66,6 +70,24 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                     key: ValueKey(state.matchedLocation),
                     fullscreenDialog: true,
                     child: const CheckoutScreen(),
+                  ),
+                ),
+                GoRoute(
+                  path: 'verify',
+                  name: AppRoute.verify.name,
+                  pageBuilder: (context, state) => MaterialPage(
+                    key: ValueKey(state.matchedLocation),
+                    fullscreenDialog: true,
+                    child: VerifyBankAccountScreen(),
+                  ),
+                ),
+                GoRoute(
+                  path: 'result',
+                  name: AppRoute.result.name,
+                  pageBuilder: (context, state) => MaterialPage(
+                    key: ValueKey(state.matchedLocation),
+                    fullscreenDialog: true,
+                    child: const ResultScreen(),
                   ),
                 ),
               ]),
