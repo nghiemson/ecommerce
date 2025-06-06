@@ -47,7 +47,6 @@ flutter_*.png
 linked_*.ds
 unlinked.ds
 unlinked_spec.ds
-.flutter-plugins-dependencies
 
 # Android related
 **/android/**/gradle-wrapper.jar
@@ -86,7 +85,6 @@ unlinked_spec.ds
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
 **/ios/Flutter/flutter_export_environment.sh
-**/ios/Flutter/.last_build_id
 
 # Web related
 lib/generated_plugin_registrant.dart
@@ -109,7 +107,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
+ 
 # Firebase local emulator exports
 firebase-exports
 
@@ -120,3 +118,8 @@ firebase-exports
 
 # Test coverage data
 coverage/lcov.info
+
+# Firirebase
+lib/firebase_options.dart
+ios/Runner/GoogleService-Info.plist
+android/app/google-services.json

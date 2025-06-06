@@ -1,15 +1,17 @@
 import 'dart:async';
 
 import 'package:ecommerce_app/src/constants/test_products.dart';
+import 'package:ecommerce_app/src/features/products/data/products_repository.dart';
 import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:ecommerce_app/src/utils/delay.dart';
 import 'package:ecommerce_app/src/utils/in_memory_store.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'fake_products_repository.g.dart';
 
-class FakeProductsRepository {
+class FakeProductsRepository implements ProductsRepository {
   FakeProductsRepository({this.addDelay = true});
 
   final bool addDelay;
@@ -29,12 +31,12 @@ class FakeProductsRepository {
     return Future.value(_products.value);
   }
 
-  Stream<List<Product>> watchProductsList() {
+  Stream<List<Product>> watchProductList() {
     return _products.stream;
   }
 
   Stream<Product?> watchProduct(String id) {
-    return watchProductsList().map((products) => _getProduct(products, id));
+    return watchProductList().map((products) => _getProduct(products, id));
   }
 
   /// update product rating
@@ -73,6 +75,12 @@ class FakeProductsRepository {
       return null;
     }
   }
+
+  @override
+  Future<void> createProduct(ProductID id, String imageUrl) {
+    // TODO: implement createProduct
+    throw UnimplementedError();
+  }
 }
 
 @riverpod
@@ -84,11 +92,11 @@ FakeProductsRepository productsRepository(ProductsRepositoryRef ref) {
 @riverpod
 Stream<List<Product>> productsListStream(ProductsListStreamRef ref) {
   final productsRepo = ref.watch(productsRepositoryProvider);
-  return productsRepo.watchProductsList();
+  return productsRepo.watchProductList();
 }
 
 @riverpod
-Future<List<Product>> productsListFuture(ProductsListFutureRef ref) {
+Future<List<Product>> productsListFuture(Ref ref) {
   final productsRepo = ref.watch(productsRepositoryProvider);
   return productsRepo.fetchProductList();
 }

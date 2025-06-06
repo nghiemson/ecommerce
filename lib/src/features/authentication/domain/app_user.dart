@@ -1,11 +1,15 @@
 /// Simple class representing the user UID and email.
+
+typedef UserID = String;
 class AppUser {
   const AppUser({
     required this.uid,
     this.email,
+    this.emailVerified = false,
   });
-  final String uid;
+  final UserID uid;
   final String? email;
+  final bool emailVerified;
 
   @override
   String toString() {
@@ -18,7 +22,8 @@ class AppUser {
       other is AppUser &&
           runtimeType == other.runtimeType &&
           uid == other.uid &&
-          email == other.email;
+          email == other.email &&
+          emailVerified == other.emailVerified;
 
   @override
   int get hashCode => uid.hashCode ^ email.hashCode;

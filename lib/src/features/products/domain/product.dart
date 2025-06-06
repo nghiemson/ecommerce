@@ -24,6 +24,32 @@ class Product {
   final double avgRating;
   final int numRatings;
 
+  factory Product.fromMap(Map<String, dynamic> json) {
+    return Product(
+      id: json['id'] as String,
+      imageUrl: json['imageUrl'] as String,
+      title: json['title'] ?? '',
+      description: json['description'] ?? '',
+      price: json['price'] ?? 0.0,
+      availableQuantity: json['availableQuantity']?.toInt() ?? 0,
+      avgRating: json['avgRating']?.toDouble() ?? 0.0,
+      numRatings: json['numRatings'].toInt() ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'imageUrl': imageUrl,
+      'title': title,
+      'description': description,
+      'price': price,
+      'availableQuantity': availableQuantity,
+      'avgRating': avgRating,
+      'numRatings': numRatings,
+    };
+  }
+
   @override
   String toString() {
     return 'Product{id: $id, imageUrl: $imageUrl, title: $title, description: $description, price: $price, availableQuantity: $availableQuantity, avgRating: $avgRating, numRatings: $numRatings}';

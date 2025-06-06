@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "765587652218",
+    "project_id": "flutter-firebase-masterc-b5089",
+    "storage_bucket": "flutter-firebase-masterc-b5089.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765587652218:android:c28a9e37f72a51f52645c3",
+        "android_client_info": {
+          "package_name": "com.example.ecommerce_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAW0H-Ygt700XsgptklL-pHeal-9CyVAcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

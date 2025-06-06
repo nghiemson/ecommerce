@@ -29,7 +29,7 @@ void main() {
 
   test('watchProductList emits global list', () {
     final productsRepo = makeProductsRepository();
-    expect(productsRepo.watchProductsList(), emits(kTestProducts));
+    expect(productsRepo.watchProductList(), emits(kTestProducts));
   });
 
   test('watchProduct(1) emits 1st item', () {

@@ -54,7 +54,7 @@ class _ProductsListScreenState extends State<ProductsListScreen> {
           ),
           ResponsiveSliverCenter(
             padding: EdgeInsets.all(Sizes.p16),
-            child: ProductsGrid(),
+            child: SliverProductsGrid(),
           ),
         ],
       ),
