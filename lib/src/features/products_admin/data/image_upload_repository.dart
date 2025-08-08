@@ -12,6 +12,7 @@ part 'image_upload_repository.g.dart';
 /// Class for uploading images to Firebase Storage
 class ImageUploadRepository {
   ImageUploadRepository(this._storage);
+
   final FirebaseStorage _storage;
 
   /// Upload an image asset to Firebase Storage and returns the download URL
@@ -32,6 +33,9 @@ class ImageUploadRepository {
       SettableMetadata(contentType: 'image/jpeg'),
     );
   }
+
+  Future<void> deleteProductImage(String imageUrl) =>
+      _storage.refFromURL(imageUrl).delete();
 }
 
 @riverpod

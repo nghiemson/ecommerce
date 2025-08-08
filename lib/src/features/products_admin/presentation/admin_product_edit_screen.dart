@@ -1,10 +1,10 @@
 import 'package:ecommerce_app/src/features/products_admin/presentation/product_validator.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
+import 'package:ecommerce_app/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../common_widgets/action_text_button.dart';
 import '../../../common_widgets/alert_dialogs.dart';
-import '../../../common_widgets/async_value_widget.dart';
 import '../../../common_widgets/custom_image.dart';
 import '../../../common_widgets/custom_text_button.dart';
 import '../../../common_widgets/error_message_widget.dart';
@@ -14,26 +14,29 @@ import '../../../constants/app_sizes.dart';
 import '../../products/data/products_repository.dart';
 import '../../products/domain/product.dart';
 import '../data/template_products_provider.dart';
+import 'admin_product_edit_controller.dart';
 
 class AdminProductEditScreen extends ConsumerWidget {
   const AdminProductEditScreen({super.key, required this.productId});
+
   final ProductID productId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final productValue = ref.watch(productProvider(productId));
-    return AsyncValueWidget<Product?>(
-      value: productValue,
+    final productValue = ref.watch(productFutureProvider(productId));
+    return productValue.when(
       data: (product) => product != null
           ? AdminProductEditScreenContents(product: product)
           : Scaffold(
-        appBar: AppBar(
-          title: Text('Edit Product'.hardcoded),
-        ),
-        body: Center(
-          child: ErrorMessageWidget('Product not found'.hardcoded),
-        ),
-      ),
+              appBar: AppBar(
+                title: Text('Edit Product'.hardcoded),
+              ),
+              body: Center(
+                child: ErrorMessageWidget('Product not found'.hardcoded),
+              ),
+            ),
+      error: (e, st) => Center(child: ErrorMessageWidget(e.toString())),
+      loading: () => const Center(child: CircularProgressIndicator()),
     );
   }
 }
@@ -41,6 +44,7 @@ class AdminProductEditScreen extends ConsumerWidget {
 /// Widget containing most of the UI for editing a product
 class AdminProductEditScreenContents extends ConsumerStatefulWidget {
   const AdminProductEditScreenContents({super.key, required this.product});
+
   final Product product;
 
   @override
@@ -90,60 +94,52 @@ class _AdminProductScreenContentsState
   }
 
   Future<void> _delete() async {
-    await showAlertDialog(
+    final delete = await showAlertDialog(
       context: context,
-      title: 'Not implemented'.hardcoded,
+      title: 'Are you sure?'.hardcoded,
+      cancelActionText: 'Cancel'.hardcoded,
+      defaultActionText: 'Delete'.hardcoded,
     );
-    // TODO: Uncomment
-    // final delete = await showAlertDialog(
-    //   context: context,
-    //   title: 'Are you sure?'.hardcoded,
-    //   cancelActionText: 'Cancel'.hardcoded,
-    //   defaultActionText: 'Delete'.hardcoded,
-    // );
-    // if (delete == true) {
-    //   ref
-    //       .read(adminProductEditControllerProvider.notifier)
-    //       .deleteProduct(product);
-    // }
+    if (delete == true) {
+      ref
+          .read(adminProductEditControllerProvider.notifier)
+          .deleteProduct(product);
+    }
   }
 
   Future<void> _submit() async {
     if (_formKey.currentState!.validate()) {
-      await showAlertDialog(
-        context: context,
-        title: 'Not implemented'.hardcoded,
-      );
-      // TODO: Uncomment
-      // final scaffoldMessenger = ScaffoldMessenger.of(context);
-      // await ref.read(adminProductEditControllerProvider.notifier).updateProduct(
-      //       product: product,
-      //       title: _titleController.text,
-      //       description: _descriptionController.text,
-      //       price: _priceController.text,
-      //       availableQuantity: _availableQuantityController.text,
-      //     );
-      // // Inform the user that the product has been updated
-      // scaffoldMessenger.showSnackBar(
-      //   SnackBar(
-      //     content: Text(
-      //       'Product updated'.hardcoded,
-      //     ),
-      //   ),
-      // );
+      final scaffoldMessenger = ScaffoldMessenger.of(context);
+      final success = await ref
+          .read(adminProductEditControllerProvider.notifier)
+          .updateProduct(
+            product: product,
+            title: _titleController.text,
+            description: _descriptionController.text,
+            price: _priceController.text,
+            availableQuantity: _availableQuantityController.text,
+          );
+      // Inform the user that the product has been updated
+      if (success) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(
+            content: Text(
+              'Product updated'.hardcoded,
+            ),
+          ),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Uncomment
-    // ref.listen<AsyncValue>(
-    //   adminProductEditControllerProvider,
-    //   (_, state) => state.showAlertDialogOnError(context),
-    // );
-    // final state = ref.watch(adminProductEditControllerProvider);
-    // final isLoading = state.isLoading;
-    const isLoading = false;
+    ref.listen<AsyncValue>(
+      adminProductEditControllerProvider,
+      (_, state) => state.showAlertDialogOnError(context),
+    );
+    final state = ref.watch(adminProductEditControllerProvider);
+    final isLoading = state.isLoading;
     const autovalidateMode = AutovalidateMode.disabled;
     return Scaffold(
       appBar: AppBar(
@@ -182,7 +178,7 @@ class _AdminProductScreenContentsState
                         ),
                         autovalidateMode: autovalidateMode,
                         validator:
-                        ref.read(productValidatorProvider).titleValidator,
+                            ref.read(productValidatorProvider).titleValidator,
                       ),
                       gapH8,
                       TextFormField(
@@ -207,7 +203,7 @@ class _AdminProductScreenContentsState
                         ),
                         autovalidateMode: autovalidateMode,
                         validator:
-                        ref.read(productValidatorProvider).priceValidator,
+                            ref.read(productValidatorProvider).priceValidator,
                       ),
                       gapH8,
                       TextFormField(
@@ -226,7 +222,7 @@ class _AdminProductScreenContentsState
                       gapH8,
                       EditProductOptions(
                         onLoadFromTemplate:
-                        isLoading ? null : _loadFromTemplate,
+                            isLoading ? null : _loadFromTemplate,
                         onDelete: isLoading ? null : _delete,
                       ),
                     ],
@@ -245,6 +241,7 @@ class _AdminProductScreenContentsState
 class EditProductOptions extends StatelessWidget {
   const EditProductOptions(
       {super.key, required this.onLoadFromTemplate, required this.onDelete});
+
   final VoidCallback? onLoadFromTemplate;
   final VoidCallback? onDelete;
 
@@ -260,7 +257,7 @@ class EditProductOptions extends StatelessWidget {
       endContent: CustomTextButton(
         text: 'Delete Product'.hardcoded,
         style:
-        Theme.of(context).textTheme.titleSmall!.copyWith(color: Colors.red),
+            Theme.of(context).textTheme.titleSmall!.copyWith(color: Colors.red),
         onPressed: onDelete,
       ),
       spacing: Sizes.p8,

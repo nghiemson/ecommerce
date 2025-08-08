@@ -32,14 +32,12 @@ class AsyncValueSliverWidget<T> extends StatelessWidget {
     return value.when(
       data: data,
       loading: () => const SliverToBoxAdapter(
-        child: Align(
-          alignment: Alignment.center,
+        child: Center(
           child: CircularProgressIndicator(),
         ),
       ),
       error: (e, st) => SliverToBoxAdapter(
-        child: Align(
-          alignment: Alignment.center,
+        child: Center(
           child: ErrorMessageWidget(
             e.toString(),
           ),

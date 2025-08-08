@@ -25,7 +25,7 @@ final templateProductsRepositoryProvider =
 typedef TemplateProductsRepositoryRef
     = AutoDisposeProviderRef<ProductsRepository>;
 String _$templateProductsListHash() =>
-    r'b5226df83111b6a9aeed384e8b1b6baa30e384f6';
+    r'fab9a0d0af3b88bd5247b22059993a5df4939fc5';
 
 /// See also [templateProductsList].
 @ProviderFor(templateProductsList)

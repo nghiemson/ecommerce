@@ -36,6 +36,12 @@ class ProductsRepository {
     return ref.snapshots().map((snapshot) => snapshot.data());
   }
 
+  Future<Product?> fetchProduct(ProductID id) async {
+    final ref = _productRef(id);
+    final snapshot = await ref.get();
+    return snapshot.data();
+  }
+
   Future<List<Product>> searchProducts(String query) {
     return Future.value([]);
   }
@@ -49,6 +55,13 @@ class ProductsRepository {
       SetOptions(merge: true),
     );
   }
+
+  Future<void> updateProduct(Product product) {
+    final ref = _productRef(product.id);
+    return ref.set(product, SetOptions(merge: true));
+  }
+
+  Future<void> deleteProduct(ProductID id) => _firestore.doc(productPath(id)).delete();
 
   DocumentReference<Product> _productRef(ProductID id) {
     return _firestore.doc(productPath(id)).withConverter(
@@ -83,9 +96,14 @@ Future<List<Product>> productsListFuture(Ref ref) {
 }
 
 @riverpod
-Stream<Product?> product(Ref ref, ProductID id) {
+Stream<Product?> productStream(Ref ref, ProductID id) {
   final productsRepository = ref.watch(productsRepositoryProvider);
   return productsRepository.watchProduct(id);
+}
+@riverpod
+Future<Product?> productFuture(Ref ref, ProductID id) {
+  final productsRepository = ref.watch(productsRepositoryProvider);
+  return productsRepository.fetchProduct(id);
 }
 
 @riverpod

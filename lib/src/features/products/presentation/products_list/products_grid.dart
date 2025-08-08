@@ -1,12 +1,11 @@
 import 'dart:math';
-
-import 'package:ecommerce_app/src/common_widgets/async_value_widget.dart';
 import 'package:ecommerce_app/src/constants/app_sizes.dart';
 import 'package:ecommerce_app/src/features/products/presentation/products_list/product_card.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import '../../../../common_widgets/error_message_widget.dart';
 import '../../../../constants/breakpoints.dart';
 import '../../data/fake_products_repository.dart';
 import '../../domain/product.dart';
@@ -21,18 +20,30 @@ class SliverProductsGrid extends ConsumerWidget {
     // TODO: restore search functionality
     //final productsListValue = ref.watch(productsSearchResultsProvider);
     final productsListValue = ref.watch(productsListStreamProvider);
-    return AsyncValueSliverWidget<List<Product>>(
-      value: productsListValue,
-      data: (products) => SliverProductsAlignedGrid(
-        itemCount: products.length,
-        itemBuilder: (_, index) {
-          final product = products[index];
-          return ProductCard(
-            product: product,
-            onPressed: () => onPressed?.call(context, product.id),
-          );
-        },
-      ),
+    final error = productsListValue.error;
+    if (error != null) {
+      return SliverToBoxAdapter(
+        child: Center(child: ErrorMessageWidget(error.toString())),
+      );
+    }
+    // * The previous value will be returned while loading
+    final products = productsListValue.value;
+    // * As a result, we only show the loading indicator if the value is null
+    if (products == null) {
+      return const SliverToBoxAdapter(
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
+    // * Otherwise, we use the current or previous value to show the products
+    return SliverProductsAlignedGrid(
+      itemCount: products.length,
+      itemBuilder: (_, index) {
+        final product = products[index];
+        return ProductCard(
+          product: product,
+          onPressed: () => onPressed?.call(context, product.id),
+        );
+      },
     );
   }
 }

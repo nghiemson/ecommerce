@@ -33,7 +33,7 @@ class Product {
       price: json['price'] ?? 0.0,
       availableQuantity: json['availableQuantity']?.toInt() ?? 0,
       avgRating: json['avgRating']?.toDouble() ?? 0.0,
-      numRatings: json['numRatings'].toInt() ?? 0,
+      numRatings: json['numRatings']?.toInt() ?? 0,
     );
   }
 

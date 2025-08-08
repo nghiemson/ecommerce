@@ -19,6 +19,13 @@ class ImageUploadService {
         .read(productsRepositoryProvider)
         .createProduct(product.id, downloadUrl);
   }
+
+  Future<void> deleteProduct(Product product) async {
+    await ref.read(imageUploadRepositoryProvider).deleteProductImage(product.imageUrl);
+    await ref
+        .read(productsRepositoryProvider)
+        .deleteProduct(product.id);
+  }
 }
 
 @riverpod

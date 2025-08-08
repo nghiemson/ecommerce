@@ -3,7 +3,9 @@ import 'package:ecommerce_app/src/constants/app_sizes.dart';
 import 'package:ecommerce_app/src/features/products/presentation/products_list/products_grid.dart';
 import 'package:ecommerce_app/src/features/products/presentation/products_list/products_search_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../routing/app_router.dart';
 import '../home_app_bar/home_app_bar.dart';
 
 /// Shows the list of products with a search field at the top.
@@ -47,15 +49,16 @@ class _ProductsListScreenState extends State<ProductsListScreen> {
       appBar: const HomeAppBar(),
       body: CustomScrollView(
         controller: _scrollController,
-        slivers: const [
-          ResponsiveSliverCenter(
+        slivers:  [
+          const ResponsiveSliverCenter(
             padding: EdgeInsets.all(Sizes.p16),
             child: ProductsSearchTextField(),
           ),
-          ResponsiveSliverCenter(
-            padding: EdgeInsets.all(Sizes.p16),
-            child: SliverProductsGrid(),
-          ),
+          SliverProductsGrid(
+            onPressed: (context, productId) => context.goNamed(
+            AppRoute.product.name,
+            pathParameters: {'id': productId},
+          ),),
         ],
       ),
     );
